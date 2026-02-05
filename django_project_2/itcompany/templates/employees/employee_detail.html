@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ employee.last_name }} {{ employee.first_name }}{% endblock %}
+
+{% block content %}
+<div class="detail-card">
+    <div class="detail-header">
+        <h1>{{ employee.last_name }} {{ employee.first_name }} {{ employee.middle_name }}</h1>
+        <p>Пол: {{ employee.get_gender_display }}</p>
+    </div>
+
+    <div>
+        <h3>Навыки:</h3>
+        {% for skill in employee.skills.all %}
+        <div class="skill-level">
+            <span>{{ skill.skill.get_name_display }}:</span>
+            <div class="level-bar"></div>
+            <span style="margin-left: 10px;">Уровень {{ skill.level }}/10</span>
+        </div>
+        {% empty %}
+        <p>Нет навыков</p>
+        {% endfor %}
+    </div>
+
+    {% if employee.images.exists %}
+    <div>
+        <h3>Галерея:</h3>
+        <div class="image-gallery">
+            {% for image in employee.images.all %}
+            <img src="{{ image.image.url }}" alt="Фото сотрудника" class="gallery-image">
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

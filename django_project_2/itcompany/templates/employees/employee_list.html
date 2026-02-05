@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Сотрудники - IT Company{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Все сотрудники</h1>
+
+<div class="employee-grid">
+    {% for employee in employees %}
+    <a href="{% url 'employee_detail' employee.id %}" class="employee-card-link">
+        <div class="employee-card">
+            <div class="employee-name">
+                {{ employee.last_name }} {{ employee.first_name }}
+            </div>
+            <div class="employee-skills">
+                {% for skill in employee.skills.all|slice:":3" %}
+                <span class="skill-tag">{{ skill.skill.get_name_display }}</span>
+                {% endfor %}
+                {% if employee.skills.count > 3 %}
+                <span class="skill-tag">+{{ employee.skills.count|add:"-3" }}</span>
+                {% endif %}
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}
